@@ -7,6 +7,9 @@ function addStock(){
 function totalAsset(){
 
 }
+function updateTotalCost(new_cost){
+
+}
 async function getTimeSeriesDataOneMinute(company_name){
     //call API
     //call plotstockData
@@ -116,22 +119,26 @@ const getFundamentals = function(event){
 
         */
         //let company_fundamentals = `<div id='company-fundamentals'></div>`
-        let high_div = $(`<div class = "row" id = 'row-high-low-volumn}'><div>`);
-        //let high_column_high = $(`<h3 class = "column" id = 'high'>52 Weeks High<div>`);
-        //let high_column_low = $(`<h3 class = "column" id = 'low'>52 Weeks Low<div>`);
-        //let company_name = $(`<h3 class = "company" id = 'company_name'>Symbol<div>`);
-        
-        let high = $(`<p class = 'high' id = company-high${all_fund_info['Symbol']}> ${'52 Weeks High',all_fund_info['52WeekHigh']} </p>`);
-        let low = $(`<p class = 'low' id = company-low${all_fund_info['Symbol']}> ${'52 Weeks Low',all_fund_info['52WeekLow']} </p>`);
+        let fundamentals = $(`<div class = "row" id = 'fundamentals'}'><div>`);       
+        let high = $(`<p class = 'high' id = company-high${all_fund_info['Symbol']}> 52 Weeks High: $${all_fund_info['52WeekHigh']} </p>`);
+        let low = $(`<p class = 'low' id = company-low${all_fund_info['Symbol']}> 52 Weeks Low: $${all_fund_info['52WeekLow']} </p>`);
+        let fiftyDayMovingAverage = $(`<p class = 'average' id = fiftyDayMovingAverage${all_fund_info['Symbol']}$> 50 Day Moving Average: $${all_fund_info['50DayMovingAverage']} </p>`);
+        let AnalystTargetPrice = $(`<p class = 'target-prive' id = AnalystTargetPrice${all_fund_info['Symbol']}> Analyst Target Price: $${all_fund_info['AnalystTargetPrice']} </p>`);
+        let Beta = $(`<p class = 'Beta' id = Beta${all_fund_info['Symbol']}> Beta: ${all_fund_info['Beta']} </p>`);
+        let EBITDA = $(`<p class = 'EBITDA' id = EBITDA${all_fund_info['Symbol']}> EBITDA: ${all_fund_info['EBITDA']} </p>`);
+        let Currency= $(`<p class = 'Currency' id = Currency${all_fund_info['Symbol']}> Currency: ${all_fund_info['Currency']} </p>`);
+        let EPS = $(`<p class = 'EPS' id = EPS${all_fund_info['Symbol']}> EPS: $${all_fund_info['EPS']} </p>`);
+        //let low = $(`<p class = 'low' id = company-low${all_fund_info['Symbol']}> 52 Weeks Low: ${all_fund_info['52WeekLow']}$ </p>`);
+        //let low = $(`<p class = 'low' id = company-low${all_fund_info['Symbol']}> 52 Weeks Low: ${all_fund_info['52WeekLow']}$ </p>`);
         //let name = $(`<p class = 'name' id = company-name${all_fund_info['Symbol']}> ${all_fund_info['Symbol']} </p>`);
         //console.log('high',high);
         //console.log('low',low)
         //high_column_high.append(high);
         //high_column_low.append(low);
         //company_name.append(name);
-        high_div.append(high,low);
+        fundamentals.append(high,low,fiftyDayMovingAverage,AnalystTargetPrice,Beta,EBITDA,Currency,EPS);
         remove = '#'+idClicked;
-        $(remove).after(high_div);
+        $(remove).after(fundamentals);
         $(remove).remove()
         //company_fundamentals.append(high_div);
         //console.log(high_div);
@@ -169,13 +176,13 @@ const getStockInfo = function(event){
     console.log('in get stock');
     console.log(symbol);
     if(symbol!==''){
-        let quantity = $('#stock-quantity').val();
+        //let quantity = $('#stock-quantity').val();
         let stock_div = $(`<div class = 'all-stock-bought' id = ${symbol}> </div>`);
-        let stock_bought = $(`<p class = 'all-stock-bought-stock' id = ${symbol}${quantity}> ${symbol} </p>`);
-        let quant = $(`<p class = 'all-stock-bought-quant' id = ${symbol}${quantity}> ${quantity} </p>`);
+        let stock_bought = $(`<p class = 'all-stock-bought-stock' id = check${symbol}> Information for ${symbol} stock</p>`);
+        //let quant = $(`<p class = 'all-stock-bought-quant' id = ${symbol}${quantity}> ${quantity} </p>`);
         let check_history = $(`<button class = 'check' id = check-history${symbol}>Details</button>`).on('click',getWeeklyData);
         let fundamentals = $(`<button class = 'check' id = fundamentals${symbol}>Fundamentals</button>`).on('click',getFundamentals);
-        stock_div.append(stock_bought,quant,check_history,fundamentals);
+        stock_div.append(stock_bought,check_history,fundamentals);
         $('#bought-stock').append(stock_div);
     }
     
@@ -238,10 +245,13 @@ const addForm= function () {
     let form = $(`<form id = form></form>`);
     let stock_symbol = $(`<label class='stock-symbol'>Stock Symbol</div><br>`);
     let stock_symbol_name = $(`<input id='stock-symbol-input'></input><br>`);
-    let quantity = $(`<label class='stock-quantity'>Quantity</Quantity><br>`);
-    let quantity_num = $(`<input id='stock-quantity'></input><br>`);
-    let buyStock = $(`<button id = 'buy-stock'>Buy Stock</button>`).on('click',getStockInfo);
-    form.append(stock_symbol,stock_symbol_name,quantity,quantity_num,buyStock);
+    //let quantity = $(`<label class='stock-quantity'>Quantity</Quantity><br>`);
+    //let quantity_num = $(`<input id='stock-quantity'></inputtotalCost><br>`);
+    let checkStock = $(`<button id = 'check-stock'>Check Stock</button>`).on('click',getStockInfo);
+    //let totalCost = $(`<p class='total' id = 'total-cost'>Total Cost: 0</p>`);
+    //let totalCash = $(`<p class='total' id = 'buying-power'>Total Cash: ${100000-document.getElementById("total-cost").innerHTML}</div>`);
+    //let NetAssets = $(`<p class='total' id = 'netAssets'>Net Assets: ${document.getElementById("total-cash").innerHTML+document.getElementById("total-cash").innerHTML}</div>`);
+    form.append(stock_symbol,stock_symbol_name,checkStock);
     bought.append(form);
     stock.append(bought);
     left.append(stock);

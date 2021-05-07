@@ -76,3 +76,17 @@ label{
 #all-chart{
   background-color:#0a0709;
 }
+
+.all-stock-bought-stock{
+  color: red;
+}
+#fundamentals{
+  font-size:18px;
+  color: red;
+}
+
+#total-cost{
+  color: red;
+  text-align: center;
+  font-size: 20px;
+}
