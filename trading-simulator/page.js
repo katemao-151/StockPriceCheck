@@ -57,6 +57,8 @@ const getWeeklyData = function (event) {
             name: 'one week growth',
             y: close_weekly,
             type: 'line',
+            text: ['One Week Performance'],
+            textposition: 'top',
             line: {
               color: '#FF4500'
             }
@@ -66,12 +68,15 @@ const getWeeklyData = function (event) {
             name: 'three month growth',
             y: close_three_month,
             type: 'line',
+            text:['Three Months Performance'],
+            textposition: 'top',
             line: {
               color: '#FF4500'
             }
           };
         layout = {
-            showlegend: false
+            showlegend: false,
+            plot_bgcolor: 'rgb(10, 7,9)'
         }
         //console.log(close);
         var plot_data_weekly = [trace1];
@@ -112,19 +117,19 @@ const getFundamentals = function(event){
         */
         //let company_fundamentals = `<div id='company-fundamentals'></div>`
         let high_div = $(`<div class = "row" id = 'row-high-low-volumn}'><div>`);
-        let high_column_high = $(`<div class = "column" id = 'high'>52 Weeks High<div>`);
-        let high_column_low = $(`<div class = "column" id = 'low'>52 Weeks Low<div>`);
-        let company_name = $(`<div class = "company" id = 'company_name'>Symbol<div>`);
+        //let high_column_high = $(`<h3 class = "column" id = 'high'>52 Weeks High<div>`);
+        //let high_column_low = $(`<h3 class = "column" id = 'low'>52 Weeks Low<div>`);
+        //let company_name = $(`<h3 class = "company" id = 'company_name'>Symbol<div>`);
         
-        let high = $(`<p class = 'high' id = company-high${all_fund_info['Symbol']}> ${all_fund_info['52WeekHigh']} </p>`);
-        let low = $(`<p class = 'low' id = company-low${all_fund_info['Symbol']}> ${all_fund_info['52WeekLow']} </p>`);
-        let name = $(`<p class = 'name' id = company-name${all_fund_info['Symbol']}> ${all_fund_info['Symbol']} </p>`);
-        console.log('high',high);
-        console.log('low',low)
-        high_column_high.append(high);
-        high_column_low.append(low);
-        company_name.append(name);
-        high_div.append(company_name,high_column_high,high_column_low);
+        let high = $(`<p class = 'high' id = company-high${all_fund_info['Symbol']}> ${'52 Weeks High',all_fund_info['52WeekHigh']} </p>`);
+        let low = $(`<p class = 'low' id = company-low${all_fund_info['Symbol']}> ${'52 Weeks Low',all_fund_info['52WeekLow']} </p>`);
+        //let name = $(`<p class = 'name' id = company-name${all_fund_info['Symbol']}> ${all_fund_info['Symbol']} </p>`);
+        //console.log('high',high);
+        //console.log('low',low)
+        //high_column_high.append(high);
+        //high_column_low.append(low);
+        //company_name.append(name);
+        high_div.append(high,low);
         remove = '#'+idClicked;
         $(remove).after(high_div);
         $(remove).remove()
@@ -163,14 +168,17 @@ const getStockInfo = function(event){
     let symbol = $('#stock-symbol-input').val();
     console.log('in get stock');
     console.log(symbol);
-    let quantity = $('#stock-quantity').val();
-    let stock_div = $(`<div class = 'all-stock-bought' id = ${symbol}> </div>`);
-    let stock_bought = $(`<p class = 'all-stock-bought-stock' id = ${symbol}${quantity}> ${symbol} </p>`);
-    let quant = $(`<p class = 'all-stock-bought-quant' id = ${symbol}${quantity}> ${quantity} </p>`);
-    let check_history = $(`<button class = 'check' id = check-history${symbol}>Details</button>`).on('click',getWeeklyData);
-    let fundamentals = $(`<button class = 'check' id = fundamentals${symbol}>Fundamentals</button>`).on('click',getFundamentals);
-    stock_div.append(stock_bought,quant,check_history,fundamentals);
-    $('#bought-stock').append(stock_div);
+    if(symbol!==''){
+        let quantity = $('#stock-quantity').val();
+        let stock_div = $(`<div class = 'all-stock-bought' id = ${symbol}> </div>`);
+        let stock_bought = $(`<p class = 'all-stock-bought-stock' id = ${symbol}${quantity}> ${symbol} </p>`);
+        let quant = $(`<p class = 'all-stock-bought-quant' id = ${symbol}${quantity}> ${quantity} </p>`);
+        let check_history = $(`<button class = 'check' id = check-history${symbol}>Details</button>`).on('click',getWeeklyData);
+        let fundamentals = $(`<button class = 'check' id = fundamentals${symbol}>Fundamentals</button>`).on('click',getFundamentals);
+        stock_div.append(stock_bought,quant,check_history,fundamentals);
+        $('#bought-stock').append(stock_div);
+    }
+    
 }
 function addStockInfo(){
     console.log('in add stock');
@@ -232,7 +240,7 @@ const addForm= function () {
     let stock_symbol_name = $(`<input id='stock-symbol-input'></input><br>`);
     let quantity = $(`<label class='stock-quantity'>Quantity</Quantity><br>`);
     let quantity_num = $(`<input id='stock-quantity'></input><br>`);
-    let buyStock = $(`<button id = 'buy-stock'></button>`).on('click',getStockInfo);
+    let buyStock = $(`<button id = 'buy-stock'>Buy Stock</button>`).on('click',getStockInfo);
     form.append(stock_symbol,stock_symbol_name,quantity,quantity_num,buyStock);
     bought.append(form);
     stock.append(bought);
